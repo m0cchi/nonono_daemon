@@ -1,34 +1,8 @@
 #!/usr/bin/env ruby
 
 require 'bundler'
-require "bundler/cli"
-require 'pathname'
-BASE_DIR = Pathname.new(__dir__).join('.tmp')
-BUNDLE_GEMFILE = Pathname.new(__dir__).join('Modulefile')
-BUNDLE_PATH = BASE_DIR.join('bundle').to_s
-BUNDLE_BIN= BASE_DIR.join('bin').to_s
-ENV['BUNDLE_PATH'] = BUNDLE_PATH
-ENV['BUNDLE_BIN'] = BUNDLE_BIN
-
-unless BUNDLE_GEMFILE.exist?
-  BUNDLE_GEMFILE.write <<-EOS
-source 'https://rubygems.org'
-
-gem 'nonono_reciever'
-gem 'nonono_sender'
-# your code...
-EOS
-  puts "create #{BUNDLE_GEMFILE}"
-  exit
-end
-
-args = ['install', '--gemfile', BUNDLE_GEMFILE.to_s, '--path', BUNDLE_PATH, '--binstubs', BUNDLE_BIN]
-Bundler::CLI.start(args, debug: true)
-
 
 Bundler.require
-#require 'nonono_sender'
-#require 'nonono_reciever'
 
 NononoReciever::R.each do |r|
   r.init
